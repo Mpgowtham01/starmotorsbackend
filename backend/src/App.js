@@ -1,7 +1,7 @@
 import express, { json } from "express";
 import cors from "cors";
 import signup from "../src/Router/Router.js";
-import bike from "../src/Router/BikeListrouter.js"
+import bike from "../src/Router/BikeListrouter.js";
 
 const app = express();
 
@@ -12,6 +12,9 @@ app.use(
     limit: "25MB",
   })
 );
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/signup", signup);
 app.use("/bike", bike);

@@ -1,21 +1,24 @@
-import Category from "../Modal/Modal.js";
+import CategoryModal from "../Modal/Modal.js";
+import bcrypt from "bcrypt";
 
 export async function userSignup(req, res, next) {
   try {
     const data = req.body;
-    console.log("data", data);
-    const details = {
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    const newUser = await CategoryModal.create({
       email: data.email,
-      password: data.password,
-    };
-    const createCategory = await Category.create(details);
+      password: hashedPassword, // ✅ save hashed password
+      verified: true, // if required
+    });
 
     res.status(201).json({
-      message: "Category Created Successfully",
-      data: createCategory,
+      message: "User Created Successfully",
+      data: newUser,
     });
   } catch (err) {
     console.log(err);
-    next();
+    next(err);
   }
 }

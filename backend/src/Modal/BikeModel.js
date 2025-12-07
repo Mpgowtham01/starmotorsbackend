@@ -2,9 +2,8 @@ import mongoose from "mongoose";
 
 const BikeSchema = new mongoose.Schema(
   {
-    
     brand: { type: String, required: true },
-    model: { type: String, required: true }, 
+    model: { type: String, required: true },
     variant: { type: String },
     registrationYear: { type: Number, required: true },
     price: { type: Number, required: true },
@@ -18,6 +17,13 @@ const BikeSchema = new mongoose.Schema(
     videoUrl: { type: String },
     description: { type: String },
     registeredState: { type: String },
+    keyfeatures: { type: [String] },
+
+    insurance: { type: String },
+    rctransfer: { type: String, default: "Yes" },
+    engine: { type: String },
+    fuel: { type: String, default: "Petrol" },
+    biketype: { type: String },
     isActive: { type: Boolean, default: true },
   },
 
