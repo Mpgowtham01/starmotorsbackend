@@ -7,14 +7,13 @@ const app = express();
 
 app.use(cors());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   json({
     limit: "25MB",
   })
 );
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use("/signup", signup);
 app.use("/bike", bike);
