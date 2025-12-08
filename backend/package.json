@@ -21,6 +21,7 @@
     "express": "^4.18.2",
     "mongoose": "^5.13.15",
     "node-modules": "^1.0.1",
+    "nodemailer": "^7.0.11",
     "nodemon": "^2.0.6",
     "path": "^0.12.7"
   }
