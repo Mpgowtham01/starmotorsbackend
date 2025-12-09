@@ -14,12 +14,12 @@ export const sendContactMessage = async (req, res) => {
 
     // Gmail transporter (App Password)
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+      host: "smtp-relay.brevo.com",
       port: 465,
       secure: true,
       auth: {
-        user: "mpgowtham1902@gmail.com",
-        pass: "prvu lxmq upke joee",
+        user: "9daba7001@smtp-brevo.com",
+        pass: "yLHAfnzwpTkm4ZJc",
       },
       logger: true,
       debug: true,
