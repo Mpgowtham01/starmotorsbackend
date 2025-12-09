@@ -21,13 +21,11 @@ export const sendContactMessage = async (req, res) => {
         user: "9daba7001@smtp-brevo.com",
         pass: "yLHAfnzwpTkm4ZJc",
       },
-      logger: true,
-      debug: true,
     });
 
     // Admin email
     const adminMail = {
-      from: email,
+      from: "mpgowtham1902@gmail.com",
       to: "mpgowtham01@gmail.com",
       subject: "New Contact Us Message - Star Motors",
       html: `
