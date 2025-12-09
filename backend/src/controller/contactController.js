@@ -5,28 +5,39 @@ export const sendContactMessage = async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
+    // Field validation
     if (!name || !email || !message) {
       return res.json({ success: false, message: "All fields required" });
     }
 
-    // Save message to DB
+    // Save message to Database
     await ContactMessage.create({ name, email, message });
 
-    // Gmail transporter (App Password)
+    // Brevo SMTP Transporter
     const transporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false,
       auth: {
         user: "9daba7001@smtp-brevo.com",
         pass: "yLHAfnzwpTkm4ZJc",
       },
     });
 
-    // Admin email
+    // VERIFY SMTP CONNECTION (works on Render too)
+    transporter.verify((err, success) => {
+      if (err) console.log("SMTP ERROR:", err);
+      else console.log("SMTP Connected ✔");
+    });
+
+    // **Use VERIFIED sender email**
+    const FROM_EMAIL = "mpgowtham1902@gmail.com"; // MUST BE VERIFIED IN BREVO
+    const email_new = "mpgowtham01@gmail.com";
+
+    // Email sent to ADMIN
     const adminMail = {
-      from: "mpgowtham1902@gmail.com",
-      to: "mpgowtham01@gmail.com",
+      from: `Star Motors <${FROM_EMAIL}>`,
+      to: email_new,
       subject: "New Contact Us Message - Star Motors",
       html: `
         <h2>New Message Received</h2>
@@ -36,23 +47,28 @@ export const sendContactMessage = async (req, res) => {
       `,
     };
 
-    // User confirmation email
+    // Auto-reply to USER
     const userMail = {
-      from: "mpgowtham1902@gmail.com",
+      from: `Star Motors <${FROM_EMAIL}>`,
       to: email,
       subject: "We received your message - Star Motors",
       html: `
         <h3>Hi ${name},</h3>
-        <p>Thank you for contacting Star Motors.</p>
-        <p>Our team will get in touch with you shortly!</p>
-        <br/><p>Regards,<br/>Star Motors Team</p>
+        <p>Thank you for contacting <b>Star Motors</b>.</p>
+        <p>Our team will reach out to you shortly!</p>
+        <br/>
+        <p>Regards,<br/>Star Motors Team</p>
       `,
     };
 
+    // Send both emails
     await transporter.sendMail(adminMail);
     await transporter.sendMail(userMail);
 
-    return res.json({ success: true, message: "Message sent successfully!" });
+    return res.json({
+      success: true,
+      message: "Message sent successfully!",
+    });
   } catch (error) {
     console.log("Contact Error:", error);
     return res.json({
