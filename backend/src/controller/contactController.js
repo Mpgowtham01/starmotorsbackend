@@ -15,12 +15,14 @@ export const sendContactMessage = async (req, res) => {
     // Gmail transporter (App Password)
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      port: 465,
+      secure: true,
       auth: {
         user: "mpgowtham1902@gmail.com",
         pass: "prvu lxmq upke joee",
       },
+      logger: true,
+      debug: true,
     });
 
     // Admin email
